@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+#define matrix vector<vector<int>>
+using namespace std;
+vector<vector<int>>multiply(vector<vector<int>> TransitionMatrix,vector<vector<int>> AnyMatrix)
+{    vector<vector<int>> C(2,vector<int>(2));
+    for(int i=0;i<2;i++)
+    {
+        for(int j=0;j<2;j++)
+        {
+            for(int x=0;x<2;x++)
+            {
+                C[i][j]+=TransitionMatrix[i][x]*AnyMatrix[x][j];
+            }
+        }
+    }
+    return C;
+}
+ vector<vector<int>> power( vector<vector<int>> TransitionMatrix,int n)
+ {
+     if(n==1)
+     return TransitionMatrix;
+    if(n&1)
+         {
+             return multiply(TransitionMatrix,power(TransitionMatrix,n-1));
+         }
+         vector<vector<int>> X = power(TransitionMatrix,n/2);
+        return multiply(X,X);
+    
+ }
+ void solve(matrix TransitionMatrix,int a,int b,int n)
+ {
+     matrix T = power(TransitionMatrix,n-1);
+     cout<<T[0][1]*b<<endl;
+ }
+int main() 
+{  
+     matrix TransitionMatrix(2,vector<int>(2));
+     TransitionMatrix[0][0]=0;
+     TransitionMatrix[0][1]=1;
+     TransitionMatrix[1][0]=1;
+     TransitionMatrix[1][1]=1;
+     int n;int a=0,b=1;
+     cin>>n;
+     solve(TransitionMatrix,a,b,n);
+}
